@@ -1,0 +1,12 @@
+db.createUser(
+    {
+        user:"root",
+        password:"rootpassword",
+        roles:[
+            {
+                role:"readWriteAnyDatabase",
+                db:"admin"    
+            }
+        ]
+    }
+)

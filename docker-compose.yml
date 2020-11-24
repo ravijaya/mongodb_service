@@ -1,0 +1,35 @@
+version: '3.7'
+  
+services:
+
+  mongoserver:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - datadrive:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo-js:ro
+    ports:
+      - '8805:27017'
+    networks:
+      - web
+
+  mongoseeder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mongoserver
+    networks:
+      - web
+
+networks:
+  web:
+    driver: bridge
+
+volumes:
+  datadrive:
+    driver: local
+
